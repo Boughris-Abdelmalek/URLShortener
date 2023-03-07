@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Stack,
   Input,
@@ -14,49 +14,46 @@ import {
   FormErrorMessage,
   FormLabel,
 } from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Field } from "formik";
 import Link from "next/link";
+import {
+  validateUsername,
+  validateEmail,
+  validatePassword,
+} from "../lib/formUtils";
+import MyContext from "@/lib/context";
+import { register } from "@/lib/auth";
+import { useRouter } from "next/router";
 
 const Register = () => {
+  const { isLoggedIn, setUser } = useContext(MyContext);
+
+  const router = useRouter();
+
   const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const validateUsername = (value) => {
-    let error;
-    if (!value) {
-      error = "Username is required";
-    } else if (value.length < 3) {
-      error = "Username must be at least 3 characters long";
+  useEffect(() => {
+    if (isLoggedIn) {
+      return router.push("/dashboard");
     }
-    return error;
-  };
-
-  const validateEmail = (value) => {
-    let error;
-    if (!value) {
-      error = "Email is required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-      error = "Invalid email address";
-    }
-    return error;
-  };
-
-  const validatePassword = (value) => {
-    let error;
-    if (!value) {
-      error = "Password is required";
-    } else if (value.length < 8) {
-      error = "Password must be at least 8 characters long";
-    }
-    return error;
-  };
+  }, [isLoggedIn]);
 
   return (
     <Center h="100vh" minH="30rem" minW="350px">
       <Container>
         <Formik
           initialValues={{ username: "", email: "", password: "" }}
-          onSubmit={(values) => {
-            console.log(values);
+          onSubmit={async (values) => {
+            const registration = await register(values.username, values.email, values.password);
+            if (registration.jwt) {
+              setUser(registration.user);
+              router.push("/dashboard");
+            } else {
+              setErrors({
+                server: registration?.error?.message || "Error from server",
+              });
+            }
           }}
         >
           {({
@@ -73,6 +70,7 @@ const Register = () => {
                 </Heading>
                 <Stack spacing={5}>
                   <FormControl
+                    isRequired
                     isInvalid={!!errors.username && touched.username}
                   >
                     <FormLabel htmlFor="username">Username</FormLabel>
@@ -81,35 +79,55 @@ const Register = () => {
                       id="username"
                       name="username"
                       type="text"
+                      placeholder="Enter your username"
                       variant="filled"
                       validate={() => validateUsername(values.username)}
                     />
                     <FormErrorMessage>{errors.username}</FormErrorMessage>
                   </FormControl>
-                  <FormControl isInvalid={!!errors.email && touched.email}>
+                  <FormControl
+                    isRequired
+                    isInvalid={!!errors.email && touched.email}
+                  >
                     <FormLabel htmlFor="email">Email Address</FormLabel>
                     <Field
                       as={Input}
                       id="email"
                       name="email"
                       type="email"
+                      placeholder="Enter your email address"
                       variant="filled"
                       validate={() => validateEmail(values.email)}
                     />
                     <FormErrorMessage>{errors.email}</FormErrorMessage>
                   </FormControl>
                   <FormControl
+                    isRequired
                     isInvalid={!!errors.password && touched.password}
                   >
                     <FormLabel htmlFor="password">Password</FormLabel>
-                    <Field
-                      as={Input}
-                      id="password"
-                      name="password"
-                      type="password"
-                      variant="filled"
-                      validate={() => validatePassword(values.password)}
-                    />
+                    <InputGroup>
+                      <Field
+                        as={Input}
+                        id="password"
+                        name="password"
+                        type={show ? "text" : "password"}
+                        placeholder="test"
+                        variant="filled"
+                        validate={() => validatePassword(values.password)}
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button
+                          h="1.75rem"
+                          size="sm"
+                          colorScheme="teal"
+                          variant="ghost"
+                          onClick={() => setShow(!show)}
+                        >
+                          {show ? "Hide" : "Show"}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
                     <FormErrorMessage>{errors.password}</FormErrorMessage>
                   </FormControl>
                 </Stack>
