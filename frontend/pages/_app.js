@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }) {
         const jwt = Cookies.get("jwt");
         if (!jwt) return;
         const response = await fetch(
-          `${process.envNEXT_PUBLIC_API_URL}/api/users/me`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,

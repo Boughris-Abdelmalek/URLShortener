@@ -45,7 +45,7 @@ const Register = () => {
         <Formik
           initialValues={{ username: "", email: "", password: "" }}
           onSubmit={async (values) => {
-            const registration = await register(values.username, values.email, values.password);
+            const registration = await register(values);
             if (registration.jwt) {
               setUser(registration.user);
               router.push("/dashboard");
