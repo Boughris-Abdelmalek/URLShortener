@@ -3,13 +3,14 @@ import { useRouter } from "next/router";
 import MyContext from "../lib/context";
 
 const Home = () => {
-  const { isLoggedIn, user } = useContext(MyContext);
+  const { isLoggedIn } = useContext(MyContext);
   const router = useRouter();
   useEffect(() => {
     if (isLoggedIn) {
-      return router.push("/dashboard");
+      router.push("/dashboard");
+    } else {
+      router.push("/login");
     }
-    return router.push("/login");
   }, [isLoggedIn]);
 
   return null;

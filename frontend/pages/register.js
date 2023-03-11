@@ -35,7 +35,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      return router.push("/dashboard");
+      router.push("/dashboard");
     }
   }, [isLoggedIn]);
 
@@ -46,6 +46,7 @@ const Register = () => {
           initialValues={{ username: "", email: "", password: "" }}
           onSubmit={async (values) => {
             const registration = await register(values);
+            console.log(registration)
             if (registration.jwt) {
               setUser(registration.user);
               router.push("/dashboard");
@@ -53,6 +54,7 @@ const Register = () => {
               setErrors({
                 server: registration?.error?.message || "Error from server",
               });
+              console.log(errors);
             }
           }}
         >
