@@ -1,5 +1,5 @@
 {
-  "name": "url-shortner",
+  "name": "backend",
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application",
@@ -20,7 +20,7 @@
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "21bba3bf-598c-47bc-b235-d22419c192bb"
+    "uuid": "cd6f82a9-1e32-40b1-80b7-bea2a5c4ff09"
   },
   "engines": {
     "node": ">=14.19.1 <=18.x.x",

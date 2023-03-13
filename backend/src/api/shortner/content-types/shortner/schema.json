@@ -4,7 +4,8 @@
   "info": {
     "singularName": "shortner",
     "pluralName": "shortners",
-    "displayName": "shortner"
+    "displayName": "shortner",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,8 +14,8 @@
   "attributes": {
     "alias": {
       "type": "string",
-      "required": true,
-      "unique": true
+      "unique": true,
+      "required": true
     },
     "url": {
       "type": "string",
@@ -23,7 +24,7 @@
     "visit": {
       "type": "integer"
     },
-    "userNumber": {
+    "user": {
       "type": "integer",
       "required": true
     }
