@@ -33,7 +33,7 @@ const Login = () => {
   }, [isLoggedIn]);
 
   return (
-    <Center h="100vh" minH="30rem" minW="350px">
+    <Center h="100vh" minH="20rem" minW="350px">
       <Container>
         <Formik
           initialValues={{ email: "", password: "" }}
