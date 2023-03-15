@@ -3,7 +3,6 @@ import MyContext from "@/lib/context";
 import { useRouter } from "next/router";
 import { get, create, deleteAlias } from "@/lib/shortener";
 import { logout } from "@/lib/auth";
-import withAction from "@/components/header";
 import {
     SimpleGrid,
     Box,
