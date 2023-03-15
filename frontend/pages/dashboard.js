@@ -157,7 +157,7 @@ const Dashboard = () => {
                         padding={{ base: "1rem", md: "8rem" }}
                     >
                         <Table variant="simple">
-                            <TableCaption>You url shortned</TableCaption>
+                            <TableCaption>Your urls shortned</TableCaption>
                             <Thead>
                                 <Tr>
                                     <Th>URL</Th>
@@ -184,6 +184,7 @@ const Dashboard = () => {
                                                         "blank"
                                                     );
                                                 }}
+                                                cursor="pointer"
                                             >
                                                 {short.url}
                                             </Td>
@@ -194,6 +195,7 @@ const Dashboard = () => {
                                                         "blank"
                                                     );
                                                 }}
+                                                cursor="pointer"
                                             >
                                                 {short.alias}
                                             </Td>
